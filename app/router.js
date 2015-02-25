@@ -9,6 +9,8 @@ Router.map(function() {
   this.resource("games", function() {
     this.route("binding");
   });
+  this.resource("resume", function() {});
+  this.resource("blog", function() {});
 });
 
 export default Router;
