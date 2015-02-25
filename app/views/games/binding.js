@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 export default Ember.View.extend({
 
+  // hitsWall: function (bullet) {
+  //   bullet.kill();
+  // },
+
   didInsertElement: function () {
     var game = new Phaser.Game(940, 540, Phaser.AUTO, 'foo', {
       preload: preload,
@@ -73,7 +77,10 @@ export default Ember.View.extend({
       game.load.spritesheet('life', 'assets/binding/life.png', 16, 16, 2);
       game.load.image('powerUp', 'assets/binding/powerup.png');
       game.load.image('lifeUp', 'assets/binding/lifeup.png');
+    }
 
+    function hitsWall(bullet) {
+      bullet.kill();
     }
 
     function create() {
@@ -505,10 +512,6 @@ export default Ember.View.extend({
       monsterFireRate = 1200;
       playerFiringRate = 300;
       create ();
-    }
-
-    function hitsWall(bullet) {
-      bullet.kill();
     }
 
     function randomMonster(x, y) {
