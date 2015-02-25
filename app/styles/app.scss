@@ -1,3 +1,9 @@
+@import "colors";
+
+html {
+  background: $brown
+}
+
 .title {
   text-align: center;
   font-family: 'Press Start 2P', cursive;
@@ -8,4 +14,26 @@
   width: 940px;
   margin: 0 auto;
   margin-bottom: 30px;
+}
+
+canvas {
+  border: solid 1px black;
+}
+
+.nav {
+
+}
+
+.nav ul {
+  list-style-type: none;
+}
+
+.nav li {
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+}
+
+.binding {
+  clear: both;
 }
