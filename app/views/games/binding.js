@@ -1,18 +1,9 @@
 import Ember from 'ember';
+// import Phaser from 'phaser'; get this path to work
 
 export default Ember.View.extend({
 
-  // hitsWall: function (bullet) {
-  //   bullet.kill();
-  // },
-
   didInsertElement: function () {
-    var game = new Phaser.Game(940, 540, Phaser.AUTO, 'foo', {
-      preload: preload,
-      create: create,
-      update: update
-    });
-
     var walls;
     var exit;
     var noExit = false;
@@ -61,8 +52,11 @@ export default Ember.View.extend({
     var moveRight;
     var moveLeft;
 
-    function preload() {
+    function hitsWall(bullet) {
+      bullet.kill();
+    }
 
+    function preload(game) {
       game.load.image('wide', 'assets/binding/wide.png');
       game.load.image('tall', 'assets/binding/tall.png');
       game.load.image('exit', 'assets/binding/exit.png');
@@ -79,11 +73,7 @@ export default Ember.View.extend({
       game.load.image('lifeUp', 'assets/binding/lifeup.png');
     }
 
-    function hitsWall(bullet) {
-      bullet.kill();
-    }
-
-    function create() {
+    function create(game) {
       game.physics.startSystem(Phaser.Physics.ARCADE);
 
       moveUp = game.input.keyboard.addKey(87);
@@ -179,13 +169,14 @@ export default Ember.View.extend({
 
     }
 
-    function update() {
+    function update(game) {
       game.physics.arcade.collide(player, walls);
       game.physics.arcade.collide(player, monsters);
       game.physics.arcade.collide(monsters, walls);
       game.physics.arcade.overlap(bullets, walls, hitsWall);
       game.physics.arcade.overlap(enemyBullets, walls, hitsWall);
       game.physics.arcade.overlap(monsters, bullets, monsterHit);
+      // one big seam, how to pass in whatever you need for `this`
       game.physics.arcade.overlap(enemyBullets, player, playerHit, null, this);
       game.physics.arcade.overlap(exit, player, renderLevel);
       game.physics.arcade.overlap(drops, player, pickUp);
@@ -237,7 +228,7 @@ export default Ember.View.extend({
           enemyTimer = game.time.now + monsterFireRate;
       }
 
-    } // end update function
+    }
 
     function renderLevel() {
       textLeft.visible = false;
@@ -676,6 +667,36 @@ export default Ember.View.extend({
       }
     }
 
-  }
+    var MyState = function(){
+      this.game = null;
+      // initialize all other variables here (lots)
+    };
+
+    MyState.prototype.preload = function (game) {
+      this.game = game;
+    };
+
+    MyState.prototype.create = function () {
+      // this.game
+    };
+
+    MyState.prototype.update = function () {
+      // this.game
+    };
+
+    // function that returns an object that contains bound functions to preload / update / create
+
+    // add all other methods as MyState.prototype methods
+    // and refer to all globals as this....
+
+    // var game = new Phaser.Game(940, 540, Phaser.AUTO, 'binding', new MyState());
+
+    var game = new Phaser.Game(940, 540, Phaser.AUTO, 'binding', {
+      preload: preload,
+      create: create,
+      update: update
+    });
+
+  } // end of didInsertElement
 
 });

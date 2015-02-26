@@ -1,15 +1,21 @@
 @import "colors";
 
 html {
-  background: $brown
+  background: $brown;
+  box-sizing: border-box;
 }
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 
 .title {
   text-align: center;
   font-family: 'Press Start 2P', cursive;
 }
 
-#foo {
+#binding {
   height: 540px;
   width: 940px;
   margin: 0 auto;
@@ -20,54 +26,26 @@ canvas {
   border: solid 1px black;
 }
 
-.nav {
-
+nav {
+  margin-bottom: 20px;
+  background: red;
 }
 
-.nav ul {
-  list-style-type: none;
+nav ul {
+  overflow: auto;
   margin:0;
 	padding:0;
-	position: absolute;
 }
 
-.nav li {
-  display: inline-block;
+nav li {
+  list-style: none;
+  display: inline;
   float: left;
-  margin-right: 10px;
 }
 
-.nav li a {
-	display:block;
-	min-width:140px;
-	height: 50px;
-	text-align: center;
-	line-height: 50px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: #fff;
-	background: #2f3036;
-	text-decoration: none;
-}
-
-/*Hover state for top level links*/
-.nav li:hover a {
-	background: #19c589;
-}
-
-/*Style for dropdown links*/
-.nav li:hover ul a {
-	background: #f3f3f3;
-	color: #2f3036;
-	height: 40px;
-	line-height: 40px;
-}
-
-/*Hover state for dropdown links*/
-.nav li:hover ul a:hover {
-	background: #19c589;
-	color: #fff;
-}
-
-.binding {
-  clear: both;
+nav ul li a {
+  display: block;
+  text-decoration: none;
+  background: yellow;
+  padding: 10px 0px;
 }

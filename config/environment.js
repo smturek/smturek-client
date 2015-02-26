@@ -13,12 +13,13 @@ module.exports = function(environment) {
       }
     },
     contentSecurityPolicy: {
+    'report-uri': "http://localhost:4200",
     'default-src': "'none'",
     'script-src': "'self'",
     'font-src': "'self' http://fonts.gstatic.com",
     'connect-src': "'self'",
-    'img-src': "'self'",
-    'style-src': "'self' 'unsafe-inline'",
+    'img-src': "'self' data:",
+    'style-src': "'self' 'unsafe-inline' http://fonts.googleapis.com",
     'media-src': "'self'"
     },
     APP: {
