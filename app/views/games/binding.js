@@ -40,7 +40,6 @@ export default Ember.View.extend({
       this.monster = null;
       this.monsterFireRate = 1200;
       this.killCount = 0;
-      this.livingMonsters = null;
       this.variant = false;
 
       this.bullets = null;
@@ -567,106 +566,109 @@ export default Ember.View.extend({
     };
 
     MyState.prototype.enemyFires = function() {
-      this.livingMonsters = [];
+      var livingMonsters = [];
+
       this.monsters.forEachAlive(function(monster) {
-        this.livingMonsters.push(monster);
-      }.bind(this));
+        livingMonsters.push(monster);
+      });
 
-      if(this.livingMonsters.length > 0) {
-        for(var i = 0; i < this.livingMonsters.length; i++) {
+      debugger;
+
+      if(livingMonsters.length > 0) {
+        for(var i = 0; i < livingMonsters.length; i++) {
           var enemyBullet = this.enemyBullets.getFirstExists(false);
-          if(this.enemyBullet) {
-            this.enemyBullet.anchor.setTo(0.5, 0.5);
-            if(this.livingMonsters[i].key === "monster") {
-              this.enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
-              this.game.physics.arcade.moveToObject(this.enemyBullet,this.player,200);
-            }
-            else if(this.livingMonsters[i].key === "blastMonster") {
-              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
-              enemyBullet.body.velocity.y = -200;
-
-              enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
-              enemyBullet.body.velocity.y = 200;
-
-              enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
-              enemyBullet.body.velocity.x = -200;
-
-              enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
-              enemyBullet.body.velocity.x = 200;
-            }
-            else if(this.livingMonsters[i].key === "monster2") {
-              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
+          if(enemyBullet) {
+            enemyBullet.anchor.setTo(0.5, 0.5);
+            if(livingMonsters[i].key === "monster") {
+              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
               this.game.physics.arcade.moveToObject(enemyBullet,this.player,200);
             }
-            else if(this.livingMonsters[i].key === "monster3") {
-              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
+            else if(livingMonsters[i].key === "blastMonster") {
+              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
+              enemyBullet.body.velocity.y = -200;
+
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
+              enemyBullet.body.velocity.y = 200;
+
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
+              enemyBullet.body.velocity.x = -200;
+
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
+              enemyBullet.body.velocity.x = 200;
+            }
+            else if(livingMonsters[i].key === "monster2") {
+              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
+              this.game.physics.arcade.moveToObject(enemyBullet,this.player,200);
+            }
+            else if(livingMonsters[i].key === "monster3") {
+              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
               this.game.physics.arcade.moveToObject(enemyBullet,this.player,400);
             }
-            else if(this.livingMonsters[i].key === "boss") {
-              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y - 20);
+            else if(livingMonsters[i].key === "boss") {
+              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y - 20);
               enemyBullet.body.velocity.y = -200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y - 20);
+              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y - 20);
               enemyBullet.body.velocity.y = 200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y - 20);
+              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y - 20);
               enemyBullet.body.velocity.x = -200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y - 20);
+              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y - 20);
               enemyBullet.body.velocity.x = 200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y + 20);
+              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y + 20);
               enemyBullet.body.velocity.y = -200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y + 20);
+              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y + 20);
               enemyBullet.body.velocity.y = 200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y + 20);
+              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y + 20);
               enemyBullet.body.velocity.x = -200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y + 20);
+              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y + 20);
               enemyBullet.body.velocity.x = 200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y - 20);
+              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y - 20);
               enemyBullet.body.velocity.y = -200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y - 20);
+              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y - 20);
               enemyBullet.body.velocity.y = 200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y - 20);
+              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y - 20);
               enemyBullet.body.velocity.x = -200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y - 20);
+              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y - 20);
               enemyBullet.body.velocity.x = 200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y + 20);
+              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y + 20);
               enemyBullet.body.velocity.y = -200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y + 20);
+              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y + 20);
               enemyBullet.body.velocity.y = 200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y + 20);
+              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y + 20);
               enemyBullet.body.velocity.x = -200;
 
               enemyBullet = this.enemyBullets.getFirstExists(false);
-              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y + 20);
+              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y + 20);
               enemyBullet.body.velocity.x = 200;
             }
           }
