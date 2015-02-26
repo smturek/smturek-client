@@ -4,59 +4,64 @@ import Ember from 'ember';
 export default Ember.View.extend({
 
   didInsertElement: function () {
-    var walls;
-    var exit;
-    var noExit = false;
-    var PowerUp;
+    var MyState = function(){
+      this.game = null;
+      this.walls = null;
+      this.exit = null;
+      this.noExit = false;
+      this.PowerUp = null;
 
-    var level = 0;
-    var levelString = "";
-    var levelText;
-    var announcement;
-    var gameOver;
-    var startOver;
-    var kills;
+      this.level = 0;
+      this.levelString = "";
+      this.levelText = null;
+      this.announcement = null;
+      this.gameOver = null;
+      this.startOver = null;
+      this.kills = null;
 
-    var player;
-    var playerMaxLife = 3;
-    var playerFiringRate = 300;
-    var lives;
-    var life;
+      this.player = null;
+      this.playerMaxLife = 3;
+      this.playerFiringRate = 300;
+      this.lives = null;
+      this.life = null;
 
-    var tutorials;
-    var tutorial;
-    var textRight;
-    var textLeft;
-    var exitText;
+      this.tutorials = null;
+      this.tutorial = null;
+      this.textRight = null;
+      this.textLeft = null;
+      this.exitText = null;
 
-    var drops;
-    var drop;
-    var doubleSpeed = false;
-    var doubleShot = false;
+      this.drops = null;
+      this.drop = null;
+      this.doubleSpeed = false;
+      this.doubleShot = false;
 
-    var monsters;
-    var monster;
-    var monsterFireRate = 1200;
-    var killCount = 0;
-    var livingMonsters;
-    var variant = false;
+      this.monsters = null;
+      this.monster = null;
+      this.monsterFireRate = 1200;
+      this.killCount = 0;
+      this.livingMonsters = null;
+      this.variant = false;
 
-    var bullets;
-    var bulletTimer = 0;
+      this.bullets = null;
+      this.bulletTimer = 0;
 
-    var enemyBullets;
-    var enemyTimer = 0;
+      this.enemyBullets = null;
+      this.enemyTimer = 0;
 
-    var moveUp;
-    var moveDown;
-    var moveRight;
-    var moveLeft;
+      this.moveUp = null;
+      this.moveDown = null;
+      this.moveRight = null;
+      this.moveLeft = null;
+      // initialize all other variables here (lots)
+    };
 
-    function hitsWall(bullet) {
+    MyState.prototype.hitsWall = function(bullet) {
       bullet.kill();
-    }
+    };
 
-    function preload(game) {
+    MyState.prototype.preload = function(game) {
+      this.game = game;
       game.load.image('wide', 'assets/binding/wide.png');
       game.load.image('tall', 'assets/binding/tall.png');
       game.load.image('exit', 'assets/binding/exit.png');
@@ -71,216 +76,215 @@ export default Ember.View.extend({
       game.load.spritesheet('life', 'assets/binding/life.png', 16, 16, 2);
       game.load.image('powerUp', 'assets/binding/powerup.png');
       game.load.image('lifeUp', 'assets/binding/lifeup.png');
-    }
+    };
 
-    function create(game) {
+    MyState.prototype.create = function(game) {
       game.physics.startSystem(Phaser.Physics.ARCADE);
 
-      moveUp = game.input.keyboard.addKey(87);
-      moveDown = game.input.keyboard.addKey(83);
-      moveLeft = game.input.keyboard.addKey(65);
-      moveRight = game.input.keyboard.addKey(68);
+      this.moveUp = game.input.keyboard.addKey(87);
+      this.moveDown = game.input.keyboard.addKey(83);
+      this.moveLeft = game.input.keyboard.addKey(65);
+      this.moveRight = game.input.keyboard.addKey(68);
 
       //walls
-      walls = game.add.group();
-      walls.enableBody = true;
+      this.walls = game.add.group();
+      this.walls.enableBody = true;
 
-      var wall = walls.create(0, 0, 'wide');
+      var wall = this.walls.create(0, 0, 'wide');
       wall.body.immovable = true;
 
-      wall = walls.create(0, 520, 'wide');
+      wall = this.walls.create(0, 520, 'wide');
       wall.body.immovable = true;
 
-      wall = walls.create(0, 0, 'tall');
+      wall = this.walls.create(0, 0, 'tall');
       wall.body.immovable = true;
 
-      wall = walls.create(920, 0, 'tall');
+      wall = this.walls.create(920, 0, 'tall');
       wall.body.immovable = true;
 
       //player's bullet group
-      bullets = game.add.group();
-      bullets.enableBody = true;
-      bullets.physicsBodyType = Phaser.Physics.ARCADE;
-      bullets.createMultiple(30, 'bullet');
-      bullets.setAll('outOfBoundsKill', true);
-      bullets.setAll('checkWorldBounds', true);
+      this.bullets = game.add.group();
+      this.bullets.enableBody = true;
+      this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
+      this.bullets.createMultiple(30, 'bullet');
+      this.bullets.setAll('outOfBoundsKill', true);
+      this.bullets.setAll('checkWorldBounds', true);
 
       //enemy's bullet group
-      enemyBullets = game.add.group();
-      enemyBullets.enableBody = true;
-      enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
-      enemyBullets.createMultiple(200, 'enemyBullet');
-      enemyBullets.setAll('outOfBoundsKill', true);
-      enemyBullets.setAll('checkWorldBounds', true);
+      this.enemyBullets = game.add.group();
+      this.enemyBullets.enableBody = true;
+      this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
+      this.enemyBullets.createMultiple(200, 'enemyBullet');
+      this.enemyBullets.setAll('outOfBoundsKill', true);
+      this.enemyBullets.setAll('checkWorldBounds', true);
 
-      monsters = game.add.group();
-      monsters.enableBody = true;
+      this.monsters = game.add.group();
+      this.monsters.enableBody = true;
 
-      lives = game.add.group();
-      for(var i = 0; i < playerMaxLife; i++) {
-        life = lives.create(854 + 25 * i, 2, 'life', 0);
+      this.lives = game.add.group();
+      var life;
+      for(var i = 0; i < this.playerMaxLife; i++) {
+        life = this.lives.create(854 + 25 * i, 2, 'life', 0);
       }
 
-      drops = game.add.group();
-      drops.enableBody = true;
+      this.drops = game.add.group();
+      this.drops.enableBody = true;
 
-      tutorials = game.add.group();
+      this.tutorials = game.add.group();
 
-      tutorial = tutorials.create(225, game.world.centerY, 'powerUp');
-      tutorial.anchor.setTo(0.5, 0.5);
+      this.tutorial = this.tutorials.create(225, game.world.centerY, 'powerUp');
+      this.tutorial.anchor.setTo(0.5, 0.5);
 
-      textLeft = game.add.text(225, game.world.centerY + 30, 'Power Up', {font: '20px Arial', fill: '#fff'});
-      textLeft.anchor.setTo(0.5, 0.5);
+      this.textLeft = game.add.text(225, game.world.centerY + 30, 'Power Up', {font: '20px Arial', fill: '#fff'});
+      this.textLeft.anchor.setTo(0.5, 0.5);
 
-      tutorial = tutorials.create(675, game.world.centerY, 'lifeUp');
-      tutorial.anchor.setTo(0.5, 0.5);
+      this.tutorial = this.tutorials.create(675, game.world.centerY, 'lifeUp');
+      this.tutorial.anchor.setTo(0.5, 0.5);
 
-      textRight = game.add.text(675, game.world.centerY + 30, 'Life Up', {font: '20px Arial', fill: '#fff'});
-      textRight.anchor.setTo(0.5, 0.5);
+      this.textRight = game.add.text(675, game.world.centerY + 30, 'Life Up', {font: '20px Arial', fill: '#fff'});
+      this.textRight.anchor.setTo(0.5, 0.5);
 
-      exitText = game.add.text(880, 460, 'Exit', {font: '20px Arial', fill: '#fff'});
-      exitText.anchor.setTo(0.5, 0.5);
+      this.exitText = game.add.text(880, 460, 'Exit', {font: '20px Arial', fill: '#fff'});
+      this.exitText.anchor.setTo(0.5, 0.5);
 
-      gameOver = game.add.text(game.world.centerX,game.world.centerY - 30,' ', { font: '84px Arial', fill: '#fff' });
-      gameOver.anchor.setTo(0.5, 0.5);
-      gameOver.visible = false;
+      this.gameOver = game.add.text(game.world.centerX,game.world.centerY - 30,' ', { font: '84px Arial', fill: '#fff' });
+      this.gameOver.anchor.setTo(0.5, 0.5);
+      this.gameOver.visible = false;
 
-      kills = game.add.text(game.world.centerX, game.world.centerY + 40, ' ', {font: '26px Arial', fill: '#fff'});
-      kills.anchor.setTo(0.5, 0.5);
-      kills.visible = false;
+      this.kills = game.add.text(game.world.centerX, game.world.centerY + 40, ' ', {font: '26px Arial', fill: '#fff'});
+      this.kills.anchor.setTo(0.5, 0.5);
+      this.kills.visible = false;
 
-      startOver = game.add.text(game.world.centerX, game.world.centerY + 110, 'Is that the best you can do?  Click to try again!', {font: '20px Arial', fill: '#fff'});
-      startOver.anchor.setTo(0.5, 0.5);
-      startOver.visible = false;
+      this.startOver = game.add.text(game.world.centerX, game.world.centerY + 110, 'Is that the best you can do?  Click to try again!', {font: '20px Arial', fill: '#fff'});
+      this.startOver.anchor.setTo(0.5, 0.5);
+      this.startOver.visible = false;
 
-      announcement = game.add.text(game.world.centerX, 50, ' ', {font: '26px Arial', fill: '#fff'});
-      announcement.anchor.setTo(0.5, 0.5);
-      announcement.alpha = 0;
+      this.announcement = game.add.text(game.world.centerX, 50, ' ', {font: '26px Arial', fill: '#fff'});
+      this.announcement.anchor.setTo(0.5, 0.5);
+      this.announcement.alpha = 0;
 
-      player = game.add.sprite(game.world.centerX, game.world.centerY, 'player', 0);
-      game.physics.arcade.enable(player);
-      player.body.collideWorldBounds= true;
-      player.anchor.setTo(0.5, 0.5);
+      this.player = game.add.sprite(game.world.centerX, game.world.centerY, 'player', 0);
+      game.physics.arcade.enable(this.player);
+      this.player.body.collideWorldBounds= true;
+      this.player.anchor.setTo(0.5, 0.5);
 
-      levelString = 'Level: ';
-      levelText = game.add.text(20, 1, levelString + level, { font: '16px arial', fill: '#fff' });
+      this.levelString = 'Level: ';
+      this.levelText = game.add.text(20, 1, this.levelString + this.level, { font: '16px arial', fill: '#fff' });
 
-      showExit();
+      this.showExit();
+    };
 
-    }
-
-    function update(game) {
-      game.physics.arcade.collide(player, walls);
-      game.physics.arcade.collide(player, monsters);
-      game.physics.arcade.collide(monsters, walls);
-      game.physics.arcade.overlap(bullets, walls, hitsWall);
-      game.physics.arcade.overlap(enemyBullets, walls, hitsWall);
-      game.physics.arcade.overlap(monsters, bullets, monsterHit);
-      // one big seam, how to pass in whatever you need for `this`
-      game.physics.arcade.overlap(enemyBullets, player, playerHit, null, this);
-      game.physics.arcade.overlap(exit, player, renderLevel);
-      game.physics.arcade.overlap(drops, player, pickUp);
+    MyState.prototype.update = function(game) {
+      game.physics.arcade.collide(this.player, this.walls);
+      game.physics.arcade.collide(this.player, this.monsters);
+      game.physics.arcade.collide(this.monsters, this.walls);
+      game.physics.arcade.overlap(this.bullets, this.walls, this.hitsWall.bind(this));
+      game.physics.arcade.overlap(this.enemyBullets, this.walls, this.hitsWall.bind(this));
+      game.physics.arcade.overlap(this.monsters, this.bullets, this.monsterHit.bind(this));
+      game.physics.arcade.overlap(this.enemyBullets, this.player, this.playerHit.bind(this));
+      game.physics.arcade.overlap(this.exit, this.player, this.renderLevel.bind(this));
+      game.physics.arcade.overlap(this.drops, this.player, this.pickUp.bind(this));
 
       var keys = game.input.keyboard.createCursorKeys();
 
-      player.body.velocity.y = 0;
-      player.body.velocity.x = 0;
+      this.player.body.velocity.y = 0;
+      this.player.body.velocity.x = 0;
 
-      if(player.alive) {
-        if (moveUp.isDown) {
-          player.body.velocity.y -= 250;
+      if(this.player.alive) {
+        if ( this.moveUp.isDown) {
+          this.player.body.velocity.y -= 250;
         }
-        else if (moveDown.isDown) {
-          player.body.velocity.y += 250;
+        else if (this.moveDown.isDown) {
+          this.player.body.velocity.y += 250;
         }
-        else if (moveRight.isDown) {
-          player.body.velocity.x += 250;
+        else if (this.moveRight.isDown) {
+          this.player.body.velocity.x += 250;
         }
-        else if (moveLeft.isDown) {
-          player.body.velocity.x -= 250;
+        else if (this.moveLeft.isDown) {
+          this.player.body.velocity.x -= 250;
         }
 
         if (keys.left.isDown)
           {
-            fireBullet("left");
+            this.fireBullet("left");
           }
         else if (keys.right.isDown)
           {
-            fireBullet("right");
+            this.fireBullet("right");
           }
         else if (keys.up.isDown)
           {
-            fireBullet("up");
+            this.fireBullet("up");
           }
         else if (keys.down.isDown)
           {
-            fireBullet("down");
+            this.fireBullet("down");
           }
 
-        if (monsters.getFirstAlive() === null && noExit)
+        if (this.monsters.getFirstAlive() === null && this.noExit)
           {
-            showExit();
+            this.showExit();
           }
       }
 
-      if (game.time.now > enemyTimer) {
-          enemyFires();
-          enemyTimer = game.time.now + monsterFireRate;
+      if (game.time.now > this.enemyTimer) {
+        this.enemyFires();
+        this.enemyTimer = game.time.now + this.monsterFireRate;
       }
 
-    }
+    };
 
-    function renderLevel() {
-      textLeft.visible = false;
-      textRight.visible = false;
-      exitText.visible = false;
-      variant = false;
-      level++;
-      announcement.text = "Level " + level;
-      game.add.tween(announcement).to( { alpha: 1 }, 2000, "Linear", true, 0, 0, true);
+    MyState.prototype.renderLevel = function() {
+      this.textLeft.visible = false;
+      this.textRight.visible = false;
+      this.exitText.visible = false;
+      this.variant = false;
+      this.level++;
+      this.announcement.text = "Level " + this.level;
+      this.game.add.tween(this.announcement).to( { alpha: 1 }, 2000, "Linear", true, 0, 0, true);
       //get rid of everything from the previous level
-      exit.kill();
-      drops.callAll("kill");
-      bullets.callAll("kill");
-      enemyBullets.callAll("kill");
-      tutorials.callAll('kill');
-      noExit = true;
+      this.exit.kill();
+      this.drops.callAll("kill");
+      this.bullets.callAll("kill");
+      this.enemyBullets.callAll("kill");
+      this.tutorials.callAll('kill');
+      this.noExit = true;
 
       //if player has all powerups don't drop anymore
-      if(doubleShot && doubleSpeed) {
-        PowerUp = false;
+      if(this.doubleShot && this.doubleSpeed) {
+        this.PowerUp = false;
       }
       else {
-        PowerUp = true;
+        this.PowerUp = true;
       }
 
-      if(level % 10 === 0) {
-        monster = monsters.create(game.world.centerX,  game.world.centerY, 'boss');
-        monster.anchor.setTo(0.5, 0.5);
-        monster.health = 5 + level;
+      if(this.level % 10 === 0) {
+        this.monster = this.monsters.create(this.game.world.centerX,  this.game.world.centerY, 'boss');
+        this.monster.anchor.setTo(0.5, 0.5);
+        this.monster.health = 5 + this.level;
       }
-      else if(level === 1) {
-        monster = monsters.create(225, game.world.centerY, 'monster');
-        monster.anchor.setTo(0.5, 0.5);
-        monster.body.immovable = true;
-        textLeft.text = "Bug";
-        textLeft.visible = true;
+      else if(this.level === 1) {
+        this.monster = this.monsters.create(225, this.game.world.centerY, 'monster');
+        this.monster.anchor.setTo(0.5, 0.5);
+        this.monster.body.immovable = true;
+        this.textLeft.text = "Bug";
+        this.textLeft.visible = true;
 
-        monster = monsters.create(675, game.world.centerY, 'monster');
-        monster.anchor.setTo(0.5, 0.5);
-        monster.body.immovable = true;
-        textRight.text = "Kill all bugs to reveal exit";
-        textRight.visible = true;
+        this.monster = this.monsters.create(675, this.game.world.centerY, 'monster');
+        this.monster.anchor.setTo(0.5, 0.5);
+        this.monster.body.immovable = true;
+        this.textRight.text = "Kill all bugs to reveal exit";
+        this.textRight.visible = true;
 
-        exitText.text = "It is said other variants exist, but no one has proof.  Take care.";
-        exitText.x = game.world.centerX;
-        exitText.y = 490;
-        exitText.visible = true;
+        this.exitText.text = "It is said other variants exist, but no one has proof.  Take care.";
+        this.exitText.x = this.game.world.centerX;
+        this.exitText.y = 490;
+        this.exitText.visible = true;
       }
       else {
         //monster fire rate
-        if(level < 21) {
-          monsterFireRate = monsterFireRate - 50;
+        if(this.level < 21) {
+          this.monsterFireRate = this.monsterFireRate - 50;
         }
 
         var min;
@@ -288,11 +292,11 @@ export default Ember.View.extend({
         var x;
         var y;
 
-        if(level < 5) {
+        if(this.level < 5) {
           min = 3;
-          max = level;
+          max = this.level;
         }
-        else if(level < 10) {
+        else if(this.level < 10) {
           min = 4;
           max = 8;
         }
@@ -301,50 +305,50 @@ export default Ember.View.extend({
           max = 12;
         }
 
-        var randMonsters = game.rnd.integerInRange(min, max);
+        var randMonsters = this.game.rnd.integerInRange(min, max);
 
         for(var i = 0; i < randMonsters; i++) {
-          x = game.rnd.integerInRange(50, 860);
-          y = game.rnd.integerInRange(50, 460);
-          randomMonster(x, y);
+          x = this.game.rnd.integerInRange(50, 860);
+          y = this.game.rnd.integerInRange(50, 460);
+          this.randomMonster(x, y);
         }
       }
-      levelText.text = levelString + level;
-      if(level === 1) {
-        enemyTimer = game.time.now + 2000;
+      this.levelText.text = this.levelString + this.level;
+      if(this.level === 1) {
+        this.enemyTimer = this.game.time.now + 2000;
       }
       else {
-      enemyTimer = game.time.now + 500;
+        this.enemyTimer = this.game.time.now + 500;
       }
-    }
+    };
 
-    function showExit() {
+    MyState.prototype.showExit = function() {
       var x;
       var y;
-      if(level === 0 || level === 1) {
+      if(this.level === 0 || this.level === 1) {
         x = 870;
         y = 470;
       }
       else {
-        x = game.rnd.integerInRange(40, 870);
-        y = game.rnd.integerInRange(40, 470);
+        x = this.game.rnd.integerInRange(40, 870);
+        y = this.game.rnd.integerInRange(40, 470);
       }
-      exit = game.add.sprite(x, y, 'exit');
-      game.physics.arcade.enable(exit);
-      noExit = false;
-    }
+      this.exit = this.game.add.sprite(x, y, 'exit');
+      this.game.physics.arcade.enable(this.exit);
+      this.noExit = false;
+    };
 
-    function fireBullet(direction) {
-      if (game.time.now > bulletTimer) {
-        var bullet = bullets.getFirstExists(false);
+    MyState.prototype.fireBullet = function(direction) {
+      if (this.game.time.now > this.bulletTimer) {
+        var bullet = this.bullets.getFirstExists(false);
         bullet.anchor.setTo(0.5, 0.5);
         if (bullet)
         {
-            if(doubleShot) {
-              bullet.reset(player.x - 6, player.y - 6);
+            if(this.doubleShot) {
+              bullet.reset(this.player.x - 6, this.player.y - 6);
             }
             else {
-              bullet.reset(player.x, player.y);
+              bullet.reset(this.player.x, this.player.y);
             }
 
             if(direction === "up") {
@@ -360,11 +364,11 @@ export default Ember.View.extend({
               bullet.body.velocity.x = -400;
             }
 
-            if(doubleShot) {
-              bullet = bullets.getFirstExists(false);
+            if(this.doubleShot) {
+              bullet = this.bullets.getFirstExists(false);
               if (bullet)
               {
-                bullet.reset(player.x + 6, player.y + 6);
+                bullet.reset(this.player.x + 6, this.player.y + 6);
                 if(direction === "up") {
                   bullet.body.velocity.y = -400;
                 }
@@ -379,87 +383,90 @@ export default Ember.View.extend({
                 }
               }
             }
-            bulletTimer = game.time.now + playerFiringRate;
+            this.bulletTimer = this.game.time.now + this.playerFiringRate;
         }
       }
-    }
+    };
 
-    function pickUp(player, drop) {
+    MyState.prototype.pickUp = function(player, drop) {
       drop.kill();
       if(drop.key === "lifeUp") {
         // makes sure to add the life at the end of the missing lives so that diplay is consistent
-        var missingLife = lives.getFirstDead();
+        var missingLife = this.lives.getFirstDead();
         if(missingLife) {
           //probably better as a for loop if I start adding more lives
-          var missingLifeIndex = lives.getChildIndex(missingLife);
-          if(lives.getChildAt(missingLifeIndex + 1).alive === false) {
-            missingLife = lives.getChildAt(missingLifeIndex + 1);
+          var missingLifeIndex = this.lives.getChildIndex(missingLife);
+          if(this.lives.getChildAt(missingLifeIndex + 1).alive === false) {
+            missingLife = this.lives.getChildAt(missingLifeIndex + 1);
           }
           missingLife.reset(missingLife.x, missingLife.y);
           missingLife.frame = 0;
         }
       }
       else if(drop.key === "powerUp") {
-        if(!doubleSpeed && !doubleShot) {
-          var rand = game.rnd.integerInRange(0, 1);
+        var rand;
+        if(!this.doubleSpeed && !this.doubleShot) {
+          rand = this.game.rnd.integerInRange(0, 1);
         }
-        else if(doubleSpeed) {
+        else if(this.doubleSpeed) {
           rand = 1;
         }
-        else if(doubleShot) {
+        else if(this.doubleShot) {
           rand = 0;
         }
 
-        if(rand === 0 && !doubleSpeed) {
-          playerFiringRate = playerFiringRate - (playerFiringRate / 2);
-          doubleSpeed = true;
-          announcement.text = "Speed Shot";
-          game.add.tween(announcement).to( { alpha: 1 }, 2000, "Linear", true, 0, 0, true);
+        if(rand === 0 && !this.doubleSpeed) {
+          this.playerFiringRate = this.playerFiringRate - (this.playerFiringRate / 2);
+          this.doubleSpeed = true;
+          this.announcement.text = "Speed Shot";
+          this.game.add.tween(this.announcement).to( { alpha: 1 }, 2000, "Linear", true, 0, 0, true);
         }
-        else if(rand === 1 && !doubleShot) {
-          doubleShot = true;
-          announcement.text = "Double Shot";
-          game.add.tween(announcement).to( { alpha: 1 }, 2000, "Linear", true, 0, 0, true);
+        else if(rand === 1 && !this.doubleShot) {
+          this.doubleShot = true;
+          this.announcement.text = "Double Shot";
+          this.game.add.tween(this.announcement).to( { alpha: 1 }, 2000, "Linear", true, 0, 0, true);
         }
       }
 
-    }
+    };
 
-    function monsterHit(monster, bullet) {
+    MyState.prototype.monsterHit = function(monster, bullet) {
       bullet.kill();
       monster.damage(1);
       if(monster.key === 'boss' && monster.health % 2 === 0) {
-          var x = game.rnd.integerInRange(50, 860);
-          var y = game.rnd.integerInRange(50, 460);
-          randomMonster(x, y);
+          var x = this.game.rnd.integerInRange(50, 860);
+          var y = this.game.rnd.integerInRange(50, 460);
+          this.randomMonster(x, y);
       }
 
       if(monster.health === 0) {
-        killCount++;
+        this.killCount++;
         if(monster.key === 'monster2') {
           //create two monsters
-          var offspring = monsters.create(monster.x - 20, monster.y - 20, 'monster');
-          offspring = monsters.create(monster.x + 20, monster.y + 20, 'monster');
+          var offspring = this.monsters.create(monster.x - 20, monster.y - 20, 'monster');
+          offspring.body.immovable = true;
+          offspring = this.monsters.create(monster.x + 20, monster.y + 20, 'monster');
+          offspring.body.immovable = true;
         }
         else{
-          var rand = game.rnd.integerInRange(0, 10);
-          if(rand < 1 && PowerUp && level > 4) {
-            drop = drops.create(monster.x, monster.y, "powerUp");
-            drop.body.immovable = true;
-            PowerUp = false;
+          var rand = this.game.rnd.integerInRange(0, 10);
+          if(rand < 1 && this.PowerUp && this.level > 4) {
+            this.drop = this.drops.create(monster.x, monster.y, "powerUp");
+            this.drop.body.immovable = true;
+            this.PowerUp = false;
           }
-          else if(rand < 3 && level !== 1) {
-            drop = drops.create(monster.x, monster.y, "lifeUp");
-            drop.body.immovable = true;
+          else if(rand < 3 && this.level !== 1) {
+            this.drop = this.drops.create(monster.x, monster.y, "lifeUp");
+            this.drop.body.immovable = true;
           }
         }
       }
-    }
+    };
 
-    function playerHit(player, bullet) {
+    MyState.prototype.playerHit = function(player, bullet) {
       bullet.kill();
 
-      life = lives.getFirstAlive();
+      var life = this.lives.getFirstAlive();
 
       if(life) {
         life.kill();
@@ -467,235 +474,221 @@ export default Ember.View.extend({
         life.frame = 1;
       }
 
-      if (lives.countLiving() < 1) {
+      if (this.lives.countLiving() < 1) {
         player.kill();
         player.visible = true;
         player.frame = 1;
-        gameOver.text = "YOU'RE DEAD!";
-        kills.text = "AND YOU ONLY KILLED " + killCount + " BUGS...";
-        kills.visible = true;
-        gameOver.visible = true;
-        startOver.visible = true;
-        textRight.visible = false;
-        textLeft.visible = false;
-        game.input.onTap.addOnce(restart,this);
+        this.gameOver.text = "YOU'RE DEAD!";
+        this.kills.text = "AND YOU ONLY KILLED " + this.killCount + " BUGS...";
+        this.kills.visible = true;
+        this.gameOver.visible = true;
+        this.startOver.visible = true;
+        this.textRight.visible = false;
+        this.textLeft.visible = false;
+        game.input.onTap.addOnce(this.restart,this);
       }
-    }
+    };
 
-    function restart() {
-      exit.kill();
-      player.destroy();
-      drops.callAll("kill");
-      bullets.callAll("kill");
-      enemyBullets.callAll("kill");
-      monsters.destroy(true, true);
-      tutorials.callAll('kill');
-      doubleShot = false;
-      doubleSpeed = false;
-      kills.visible = false;
-      gameOver.visible = false;
-      startOver.visible = false;
-      textRight.visible = false;
-      textLeft.visible = false;
-      exitText.visible = false;
-      level = 0;
-      killCount = 0;
-      monsterFireRate = 1200;
-      playerFiringRate = 300;
-      create ();
-    }
+    MyState.prototype.restart = function() {
+      this.exit.kill();
+      this.player.destroy();
+      this.drops.callAll("kill");
+      this.bullets.callAll("kill");
+      this.enemyBullets.callAll("kill");
+      this.monsters.destroy(true, true);
+      this.tutorials.callAll('kill');
+      this.doubleShot = false;
+      this.doubleSpeed = false;
+      this.kills.visible = false;
+      this.gameOver.visible = false;
+      this.startOver.visible = false;
+      this.textRight.visible = false;
+      this.textLeft.visible = false;
+      this.exitText.visible = false;
+      this.level = 0;
+      this.killCount = 0;
+      this.monsterFireRate = 1200;
+      this.playerFiringRate = 300;
+      this.create();
+    };
 
-    function randomMonster(x, y) {
+    MyState.prototype.randomMonster = function(x, y) {
       var monsterType;
 
-      if(level < 4) {
+      if(this.level < 4) {
         monsterType = 0;
       }
-      else if(level === 4) {
-        if(!variant) {
+      else if(this.level === 4) {
+        if(!this.variant) {
           monsterType = 1;
-          variant = true;
+          this.variant = true;
         }
         else {
           monsterType = 0;
         }
       }
-      else if(level === 5) {
-        if(!variant) {
+      else if(this.level === 5) {
+        if(!this.variant) {
           monsterType = 2;
-          variant = true;
+          this.variant = true;
         }
         else {
           monsterType = 0;
         }
       }
-      else if(level === 6) {
-        if(!variant) {
+      else if(this.level === 6) {
+        if(!this.variant) {
           monsterType = 3;
-          variant = true;
+          this.variant = true;
         }
         else {
           monsterType = 0;
         }
       }
       else {
-        monsterType = game.rnd.integerInRange(0, 3);
+        monsterType = this.game.rnd.integerInRange(0, 3);
       }
 
       if(monsterType === 0) {
-        monster = monsters.create(x, y, 'monster');
+        this.monster = this.monsters.create(x, y, 'monster');
       }
       else if(monsterType === 1) {
-        monster = monsters.create(x, y, 'blastMonster');
+        this.monster = this.monsters.create(x, y, 'blastMonster');
       }
       else if(monsterType === 2) {
-        monster = monsters.create(x, y, 'monster2');
+        this.monster = this.monsters.create(x, y, 'monster2');
       }
       else if(monsterType === 3) {
-        monster = monsters.create(x, y, 'monster3');
-        monster.health = 3;
+        this.monster = this.monsters.create(x, y, 'monster3');
+        this.monster.health = 3;
       }
-      monster.body.immovable = true;
-      monster.anchor.setTo(0.5, 0.5);
-    }
+      this.monster.body.immovable = true;
+      this.monster.anchor.setTo(0.5, 0.5);
+    };
 
-    function enemyFires() {
-      livingMonsters = [];
-      monsters.forEachAlive(function(monster) {
-        livingMonsters.push(monster);
-      });
+    MyState.prototype.enemyFires = function() {
+      this.livingMonsters = [];
+      this.monsters.forEachAlive(function(monster) {
+        this.livingMonsters.push(monster);
+      }.bind(this));
 
-      if(livingMonsters.length > 0) {
-        for(var i = 0; i < livingMonsters.length; i++) {
-          var enemyBullet = enemyBullets.getFirstExists(false);
-          if(enemyBullet) {
-            enemyBullet.anchor.setTo(0.5, 0.5);
-            if(livingMonsters[i].key === "monster") {
-              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
-              game.physics.arcade.moveToObject(enemyBullet,player,200);
+      if(this.livingMonsters.length > 0) {
+        for(var i = 0; i < this.livingMonsters.length; i++) {
+          var enemyBullet = this.enemyBullets.getFirstExists(false);
+          if(this.enemyBullet) {
+            this.enemyBullet.anchor.setTo(0.5, 0.5);
+            if(this.livingMonsters[i].key === "monster") {
+              this.enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
+              this.game.physics.arcade.moveToObject(this.enemyBullet,this.player,200);
             }
-            else if(livingMonsters[i].key === "blastMonster") {
-              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
+            else if(this.livingMonsters[i].key === "blastMonster") {
+              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
               enemyBullet.body.velocity.y = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
               enemyBullet.body.velocity.y = 200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
               enemyBullet.body.velocity.x = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
               enemyBullet.body.velocity.x = 200;
             }
-            else if(livingMonsters[i].key === "monster2") {
-              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
-              game.physics.arcade.moveToObject(enemyBullet,player,200);
+            else if(this.livingMonsters[i].key === "monster2") {
+              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
+              this.game.physics.arcade.moveToObject(enemyBullet,this.player,200);
             }
-            else if(livingMonsters[i].key === "monster3") {
-              enemyBullet.reset(livingMonsters[i].x, livingMonsters[i].y);
-              game.physics.arcade.moveToObject(enemyBullet,player,400);
+            else if(this.livingMonsters[i].key === "monster3") {
+              enemyBullet.reset(this.livingMonsters[i].x, this.livingMonsters[i].y);
+              this.game.physics.arcade.moveToObject(enemyBullet,this.player,400);
             }
-            else if(livingMonsters[i].key === "boss") {
-              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y - 20);
+            else if(this.livingMonsters[i].key === "boss") {
+              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y - 20);
               enemyBullet.body.velocity.y = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y - 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y - 20);
               enemyBullet.body.velocity.y = 200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y - 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y - 20);
               enemyBullet.body.velocity.x = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y - 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y - 20);
               enemyBullet.body.velocity.x = 200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y + 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y + 20);
               enemyBullet.body.velocity.y = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y + 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y + 20);
               enemyBullet.body.velocity.y = 200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y + 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y + 20);
               enemyBullet.body.velocity.x = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y + 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y + 20);
               enemyBullet.body.velocity.x = 200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y - 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y - 20);
               enemyBullet.body.velocity.y = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y - 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y - 20);
               enemyBullet.body.velocity.y = 200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y - 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y - 20);
               enemyBullet.body.velocity.x = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x + 20, livingMonsters[i].y - 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x + 20, this.livingMonsters[i].y - 20);
               enemyBullet.body.velocity.x = 200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y + 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y + 20);
               enemyBullet.body.velocity.y = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y + 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y + 20);
               enemyBullet.body.velocity.y = 200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y + 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y + 20);
               enemyBullet.body.velocity.x = -200;
 
-              enemyBullet = enemyBullets.getFirstExists(false);
-              enemyBullet.reset(livingMonsters[i].x - 20, livingMonsters[i].y + 20);
+              enemyBullet = this.enemyBullets.getFirstExists(false);
+              enemyBullet.reset(this.livingMonsters[i].x - 20, this.livingMonsters[i].y + 20);
               enemyBullet.body.velocity.x = 200;
             }
           }
         }
       }
-    }
-
-    var MyState = function(){
-      this.game = null;
-      // initialize all other variables here (lots)
     };
 
-    MyState.prototype.preload = function (game) {
-      this.game = game;
-    };
-
-    MyState.prototype.create = function () {
-      // this.game
-    };
-
-    MyState.prototype.update = function () {
-      // this.game
+    MyState.prototype.callbacks = function () {
+      return {
+        preload: this.preload.bind(this),
+        create: this.create.bind(this),
+        update: this.update.bind(this),
+      };
     };
 
     // function that returns an object that contains bound functions to preload / update / create
 
     // add all other methods as MyState.prototype methods
     // and refer to all globals as this....
+    var state = new MyState();
 
-    // var game = new Phaser.Game(940, 540, Phaser.AUTO, 'binding', new MyState());
-
-    var game = new Phaser.Game(940, 540, Phaser.AUTO, 'binding', {
-      preload: preload,
-      create: create,
-      update: update
-    });
+    var game = new Phaser.Game(940, 540, Phaser.AUTO, 'binding', state.callbacks());
 
   } // end of didInsertElement
 
