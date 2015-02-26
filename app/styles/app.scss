@@ -25,47 +25,15 @@ canvas {
 }
 
 .nav ul {
-  list-style-type: none;
   margin:0;
 	padding:0;
-	position: absolute;
 }
 
 .nav li {
+  list-style: none;
   display: inline-block;
   float: left;
   margin-right: 10px;
-}
-
-.nav li a {
-	display:block;
-	min-width:140px;
-	height: 50px;
-	text-align: center;
-	line-height: 50px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: #fff;
-	background: #2f3036;
-	text-decoration: none;
-}
-
-/*Hover state for top level links*/
-.nav li:hover a {
-	background: #19c589;
-}
-
-/*Style for dropdown links*/
-.nav li:hover ul a {
-	background: #f3f3f3;
-	color: #2f3036;
-	height: 40px;
-	line-height: 40px;
-}
-
-/*Hover state for dropdown links*/
-.nav li:hover ul a:hover {
-	background: #19c589;
-	color: #fff;
 }
 
 .binding {

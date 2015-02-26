@@ -186,7 +186,7 @@ export default Ember.View.extend({
       game.physics.arcade.overlap(bullets, walls, hitsWall);
       game.physics.arcade.overlap(enemyBullets, walls, hitsWall);
       game.physics.arcade.overlap(monsters, bullets, monsterHit);
-      game.physics.arcade.overlap(enemyBullets, player, playerHit, null, this);
+      game.physics.arcade.overlap(enemyBullets, player, playerHit);
       game.physics.arcade.overlap(exit, player, renderLevel);
       game.physics.arcade.overlap(drops, player, pickUp);
 
