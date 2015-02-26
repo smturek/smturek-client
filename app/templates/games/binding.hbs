@@ -3,3 +3,27 @@
   <h5 class="title"><b>WASD</b> to move, <b>Arrow Keys</b> to shoot</h5>
   <div id="binding"></div>
 </div>
+
+<div class="high-scores">
+  <h2 class="title white">Binding of Pry-saac High Scores</h2>
+  <table>
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Score</td>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each score in model}}
+        <tr>
+          <td>{{score.name}}</td>
+          <td>{{score.score}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+
+
+</div>
