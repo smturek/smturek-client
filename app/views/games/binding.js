@@ -1,15 +1,17 @@
 import Ember from 'ember';
-// import Phaser from 'phaser'; get this path to work
 
 export default Ember.View.extend({
 
   didInsertElement: function () {
-    var MyState = function(){
+    var that = this
+    var MyState = function(viewContext){
       this.game = null;
       this.walls = null;
       this.exit = null;
       this.noExit = false;
       this.PowerUp = null;
+
+      this.viewContext = viewContext
 
       this.level = 0;
       this.levelString = "";
@@ -484,6 +486,7 @@ export default Ember.View.extend({
         this.startOver.visible = true;
         this.textRight.visible = false;
         this.textLeft.visible = false;
+        this.viewContext.get('controller').send('endGame', this.killCount);
         game.input.onTap.addOnce(this.restart,this);
       }
     };
@@ -571,8 +574,6 @@ export default Ember.View.extend({
       this.monsters.forEachAlive(function(monster) {
         livingMonsters.push(monster);
       });
-
-      debugger;
 
       if(livingMonsters.length > 0) {
         for(var i = 0; i < livingMonsters.length; i++) {
@@ -688,7 +689,8 @@ export default Ember.View.extend({
 
     // add all other methods as MyState.prototype methods
     // and refer to all globals as this....
-    var state = new MyState();
+
+    var state = new MyState(that);
 
     var game = new Phaser.Game(940, 540, Phaser.AUTO, 'binding', state.callbacks());
 
