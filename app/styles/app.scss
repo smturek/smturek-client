@@ -1,7 +1,12 @@
 @import "colors";
 
 html {
-  background: $brown
+  background: $brown;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 .title {
@@ -9,7 +14,7 @@ html {
   font-family: 'Press Start 2P', cursive;
 }
 
-#foo {
+#binding {
   height: 540px;
   width: 940px;
   margin: 0 auto;
@@ -18,4 +23,47 @@ html {
 
 canvas {
   border: solid 1px black;
+}
+
+nav {
+  margin-bottom: 20px;
+  background: red;
+}
+
+nav ul {
+  overflow: auto;
+  margin:0;
+	padding:0;
+}
+
+nav li {
+  list-style: none;
+  display: inline;
+  float: left;
+}
+
+nav ul li a {
+  display: block;
+  text-decoration: none;
+  background: yellow;
+  padding: 10px 0px;
+}
+
+table {
+  font-family: 'Press Start 2P', cursive;
+  border-collapse: collapse;
+  margin: 0 auto;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  border-top: 1px solid white;
+}
+
+th, td {
+  border-bottom: 1px solid white;
+  padding: 10px;
+  text-align: center;
+}
+
+.high-scores{
+  color: white;
 }
