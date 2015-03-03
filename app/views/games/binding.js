@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.View.extend({
 
   didInsertElement: function () {
-    var that = this
+    var that = this;
     var MyState = function(viewContext){
       this.game = null;
       this.walls = null;
@@ -11,7 +11,7 @@ export default Ember.View.extend({
       this.noExit = false;
       this.PowerUp = null;
 
-      this.viewContext = viewContext
+      this.viewContext = viewContext;
 
       this.level = 0;
       this.levelString = "";
