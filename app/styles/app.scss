@@ -12,6 +12,7 @@ html {
 .title {
   text-align: center;
   font-family: 'Press Start 2P', cursive;
+  color: white;
 }
 
 #binding {
@@ -63,4 +64,15 @@ th, td {
 
 .high-scores{
   color: white;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+input[type="text"] {
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+}
+
+.submit {
+  font-family: 'Press Start 2P', cursive;
 }

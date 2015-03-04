@@ -2,8 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
-  showScoreSubmit: false,
+  showScoreSubmit: true,
   playerScore: 0,
+  showHighScore: true,
 
   actions: {
     submitScore: function() {
@@ -13,11 +14,13 @@ export default Ember.Controller.extend({
       this.set('playerName', '');
       this.set('playerScore', '');
       score.save();
+      this.set('showHighScore', true);
+      this.set('showScoreSubmit', false);
     },
 
     endGame: function(score) {
-      this.set('showScoreSubmit', true)
-      this.set('playerScore', score)
+      this.set('showScoreSubmit', true);
+      this.set('playerScore', score);
     }
   }
 });

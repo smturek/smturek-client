@@ -8,32 +8,30 @@
   <div class="high-scores">
     <h2 class="title white">Submit your High Score</h2>
     {{input value=playerName rows='1' placeholder="Your Name"}}
-    {{input value=playerScore rows='1'}}
-    <button {{action 'submitScore'}}>Submit Score</button>
+    {{input value=playerScore rows='1' readonly='true'}}
+    <button {{action 'submitScore'}} class="submit">Submit Score</button>
   </div>
 {{/if}}
 
-
-<div class="high-scores">
-  <h2 class="title white">Binding of Pry-saac High Scores</h2>
-  <table>
-    <thead>
-      <tr>
-        <td>Name</td>
-        <td>Score</td>
-      </tr>
-    </thead>
-
-    <tbody>
-      {{#each score in model}}
+{{#if showHighScore}}
+  <div class="high-scores">
+    <h2 class="title">Binding of Pry-saac High Scores</h2>
+    <table>
+      <thead>
         <tr>
-          <td>{{score.name}}</td>
-          <td>{{score.score}}</td>
+          <td>Name</td>
+          <td>Score</td>
         </tr>
-      {{/each}}
-    </tbody>
-  </table>
+      </thead>
 
-
-
-</div>
+      <tbody>
+        {{#each score in model}}
+          <tr>
+            <td>{{score.name}}</td>
+            <td>{{score.score}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{/if}}

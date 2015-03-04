@@ -12,7 +12,6 @@ export default Ember.View.extend({
       this.PowerUp = null;
 
       this.viewContext = viewContext;
-      this.keys = game.input.keyboard.createCursorKeys();
 
       this.level = 0;
       this.levelString = "";
@@ -27,6 +26,8 @@ export default Ember.View.extend({
       this.playerFiringRate = 300;
       this.lives = null;
       this.life = null;
+
+      this.keys = null;
 
       this.tutorials = null;
       this.tutorial = null;
@@ -187,7 +188,7 @@ export default Ember.View.extend({
       game.physics.arcade.overlap(this.exit, this.player, this.renderLevel.bind(this));
       game.physics.arcade.overlap(this.drops, this.player, this.pickUp.bind(this));
 
-
+      this.keys = game.input.keyboard.createCursorKeys();
 
       this.player.body.velocity.y = 0;
       this.player.body.velocity.x = 0;
@@ -206,19 +207,19 @@ export default Ember.View.extend({
           this.player.body.velocity.x -= 250;
         }
 
-        if (keys.left.isDown)
+        if (this.keys.left.isDown)
           {
             this.fireBullet("left");
           }
-        else if (keys.right.isDown)
+        else if (this.keys.right.isDown)
           {
             this.fireBullet("right");
           }
-        else if (keys.up.isDown)
+        else if (this.keys.up.isDown)
           {
             this.fireBullet("up");
           }
-        else if (keys.down.isDown)
+        else if (this.keys.down.isDown)
           {
             this.fireBullet("down");
           }
@@ -482,12 +483,14 @@ export default Ember.View.extend({
         player.frame = 1;
         this.gameOver.text = "YOU'RE DEAD!";
         this.kills.text = "AND YOU ONLY KILLED " + this.killCount + " BUGS...";
+        this.exitText.text = "Submit your score below and see how you stack up";
+        this.exitText.visible = true;
         this.kills.visible = true;
         this.gameOver.visible = true;
         this.startOver.visible = true;
         this.textRight.visible = false;
         this.textLeft.visible = false;
-        this.keys = null;
+        game.input.keyboard.clearCaptures();
         this.viewContext.get('controller').send('endGame', this.killCount);
         game.input.onTap.addOnce(this.restart,this);
       }
