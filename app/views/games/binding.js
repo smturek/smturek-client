@@ -12,6 +12,7 @@ export default Ember.View.extend({
       this.PowerUp = null;
 
       this.viewContext = viewContext;
+      this.keys = game.input.keyboard.createCursorKeys();
 
       this.level = 0;
       this.levelString = "";
@@ -186,7 +187,7 @@ export default Ember.View.extend({
       game.physics.arcade.overlap(this.exit, this.player, this.renderLevel.bind(this));
       game.physics.arcade.overlap(this.drops, this.player, this.pickUp.bind(this));
 
-      var keys = game.input.keyboard.createCursorKeys();
+
 
       this.player.body.velocity.y = 0;
       this.player.body.velocity.x = 0;
@@ -486,6 +487,7 @@ export default Ember.View.extend({
         this.startOver.visible = true;
         this.textRight.visible = false;
         this.textLeft.visible = false;
+        this.keys = null;
         this.viewContext.get('controller').send('endGame', this.killCount);
         game.input.onTap.addOnce(this.restart,this);
       }
