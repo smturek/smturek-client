@@ -2,9 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
-  showScoreSubmit: true,
+  showScoreSubmit: false,
   playerScore: 0,
-  showHighScore: true,
+  showHighScore: false,
 
   actions: {
     submitScore: function() {
