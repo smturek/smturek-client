@@ -17,8 +17,8 @@ module.exports = function(environment) {
     'report-uri': "http://localhost:4200",
     'default-src': "'none'",
     'script-src': "'self'",
-    'font-src': "'self' http://fonts.gstatic.com http://fonts.googleapis.com/css?family=Press+Start+2P",
-    'connect-src': "'self' localhost:3000",
+    'font-src': "'self' http://fonts.gstatic.com",
+    'connect-src': "'self' https://smturek-api.herokuapp.com",
     'img-src': "'self' data:",
     'style-src': "'self' 'unsafe-inline' http://fonts.googleapis.com",
     'media-src': "'self'"

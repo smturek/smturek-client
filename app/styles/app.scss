@@ -27,7 +27,6 @@ canvas {
 
 nav {
   margin-bottom: 20px;
-  background: red;
 }
 
 nav ul {
@@ -38,15 +37,13 @@ nav ul {
 
 nav li {
   list-style: none;
-  display: inline;
-  float: left;
 }
 
 nav ul li a {
   display: block;
   text-decoration: none;
-  background: yellow;
-  padding: 10px 0px;
+  float: left;
+  padding: 10px 20px;
 }
 
 table {
