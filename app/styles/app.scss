@@ -1,12 +1,11 @@
 @import "colors";
 
 html {
-  background: $brown;
-  box-sizing: border-box;
+  background: $dark-blue;
 }
 
 *, *:before, *:after {
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 
 .title {
@@ -28,6 +27,8 @@ canvas {
 
 nav {
   margin-bottom: 20px;
+  background: $slate;
+  display: text-center;
 }
 
 nav ul {
@@ -43,8 +44,16 @@ nav li {
 nav ul li a {
   display: block;
   text-decoration: none;
-  float: left;
+  float: right;
   padding: 10px 20px;
+  color: $blue;
+  font-size: 20px;
+  height: 100%;
+}
+
+nav ul li a:hover {
+  color: $bone;
+  background: $gray;
 }
 
 table {
@@ -75,4 +84,20 @@ input[type="text"] {
 
 .submit {
   font-family: 'Press Start 2P', cursive;
+}
+
+.margin-right-100 {
+  margin-right: 100px;
+}
+
+.margin-left-100 {
+  margin-left: 100px;
+}
+
+.left-nav {
+  float: left;
+  display: block;
+  padding: 10px 20px;
+  color: $blue;
+  font-size: 20px;
 }
