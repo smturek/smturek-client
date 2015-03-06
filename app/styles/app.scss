@@ -1,7 +1,18 @@
 @import "colors";
+@import "fonts";
+
+@font-face {
+  font-family: 'jaapokki';
+  src: url(Jaapokkisubtract-Regular.otf);
+}
 
 html {
-  background: $dark-blue;
+  background-image: url("/assets/back-and-trees.jpeg");
+  background-size: cover;
+  background-position: 0px -165px,
+                        center;
+  background-repeat: none;
+  position: relative;
 }
 
 *, *:before, *:after {
@@ -26,9 +37,9 @@ canvas {
 }
 
 nav {
-  margin-bottom: 20px;
-  background: $slate;
   display: text-center;
+  font-family: 'jaapokki';
+  margin-bottom: 150px;
 }
 
 nav ul {
@@ -45,15 +56,13 @@ nav ul li a {
   display: block;
   text-decoration: none;
   float: right;
-  padding: 10px 20px;
-  color: $blue;
+  padding: 10px 15px;
+  color: white;
   font-size: 20px;
-  height: 100%;
 }
 
 nav ul li a:hover {
   color: $bone;
-  background: $gray;
 }
 
 table {
@@ -87,17 +96,40 @@ input[type="text"] {
 }
 
 .margin-right-100 {
-  margin-right: 100px;
+  margin-right: 50px;
 }
 
 .margin-left-100 {
-  margin-left: 100px;
+  margin-left: 50px;
 }
 
 .left-nav {
   float: left;
-  display: block;
-  padding: 10px 20px;
-  color: $blue;
-  font-size: 20px;
+}
+
+.binding {
+  background: black;
+  width: 100%;
+  padding: 30px 0px;
+}
+
+.intro {
+  height: 200px;
+  width: 50%;
+  border: solid 1px white;
+  text-align: center;
+  margin: 0px auto;
+  color: white;
+}
+
+.intro h1 {
+  font-family: $rock;
+  font-size: 60px;
+  margin: 0px;
+}
+
+.intro h3 {
+  font-family: 'jaapokki';
+  font-size: 30px;
+  margin: 10px;
 }

@@ -17,10 +17,10 @@ module.exports = function(environment) {
     'report-uri': "http://localhost:4200",
     'default-src': "'none'",
     'script-src': "'self'",
-    'font-src': "'self' http://fonts.gstatic.com",
+    'font-src': "'self' https://fonts.gstatic.com",
     'connect-src': "'self' https://smturek-api.herokuapp.com",
     'img-src': "'self' ",
-    'style-src': "'self' 'unsafe-inline' http://fonts.googleapis.com",
+    'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com https://maxcdn.bootstrapcdn.com/",
     'media-src': "'self'"
     },
     APP: {
