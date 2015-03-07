@@ -6,6 +6,11 @@
   src: url(Jaapokkisubtract-Regular.otf);
 }
 
+@font-face {
+  font-family: 'baron-neue';
+  src: url(Baron-Neue.otf);
+}
+
 html {
   background-image: url("/assets/back-and-trees.jpeg");
   background-size: cover;
@@ -39,7 +44,7 @@ canvas {
 nav {
   display: text-center;
   font-family: 'jaapokki';
-  margin-bottom: 150px;
+  margin-bottom: 100px;
 }
 
 nav ul {
@@ -116,7 +121,6 @@ input[type="text"] {
 .intro {
   height: 200px;
   width: 50%;
-  border: solid 1px white;
   text-align: center;
   margin: 0px auto;
   color: white;
@@ -129,7 +133,7 @@ input[type="text"] {
 }
 
 .intro h3 {
-  font-family: 'jaapokki';
-  font-size: 30px;
+  font-family: 'baron-neue';
+  font-size: 26px;
   margin: 10px;
 }
