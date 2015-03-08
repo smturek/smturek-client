@@ -47,7 +47,7 @@ nav ul li a {
   display: block;
   text-decoration: none;
   float: right;
-  padding: 10px 15px;
+  padding: 5px 15px 10px 15px;
   color: white;
   font-size: 20px;
 }
@@ -101,13 +101,13 @@ input[type="text"] {
 
 .binding {
   margin: 0 auto;
-  background: black;
+  position: relative;
 }
 
 .intro {
   background-image: url("/assets/back-and-trees.jpeg");
   background-size: cover;
-  height: 650px;
+  height: 620px;
   width: 100%;
   text-align: center;
   margin: 0px auto;
@@ -125,4 +125,12 @@ input[type="text"] {
   font-family: $baron;
   font-size: 26px;
   margin: 10px;
+}
+
+.pseudo-button {
+  display: block;
+  padding: 5px 0px;
+  border: 1px solid white;
+  width: 10%;
+  margin: 0px auto;
 }

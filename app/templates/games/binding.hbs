@@ -2,6 +2,12 @@
   <h1 class="title">Binding of Pry-saac</h1>
   <h5 class="title"><b>WASD</b> to move, <b>Arrow Keys</b> to shoot</h5>
   <div id="binding"></div>
+
+  {{#if showHighScore}}
+    <h4 {{action 'hideScores'}} class="title pseudo-button">Hide High Scores</h4>
+  {{else}}
+    <h4 {{action 'showScores'}} class="title pseudo-button">Show High Scores</h4>
+  {{/if}}
 </div>
 
 {{#if showScoreSubmit}}

@@ -24,7 +24,11 @@ export default Ember.Controller.extend({
     },
 
     showScores: function() {
-      
+      this.set('showHighScore', true);
+    },
+
+    hideScores: function() {
+      this.set('showHighScore', false);
     }
   }
 });
