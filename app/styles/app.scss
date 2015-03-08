@@ -3,8 +3,8 @@
 
 html {
   background-color: black;
-  background-repeat: no-repeat;
   position: relative;
+  font-family: $baron;
 }
 
 *, *:before, *:after {
@@ -84,7 +84,7 @@ input[type="text"] {
 }
 
 .submit {
-  font-family: $baron;
+  margin: 0px 25px;
 }
 
 .margin-right-100 {
@@ -112,7 +112,7 @@ input[type="text"] {
   text-align: center;
   margin: 0px auto;
   color: white;
-  padding-top: 200px;
+  padding-top: 175px;
 }
 
 .intro h1 {
@@ -122,7 +122,6 @@ input[type="text"] {
 }
 
 .intro h3 {
-  font-family: $baron;
   font-size: 26px;
   margin: 10px;
 }
@@ -134,3 +133,5 @@ input[type="text"] {
   width: 10%;
   margin: 0px auto;
 }
+
+button

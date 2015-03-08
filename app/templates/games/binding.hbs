@@ -13,8 +13,8 @@
 {{#if showScoreSubmit}}
   <div class="high-scores">
     <h2 class="title white">Submit your High Score</h2>
-    {{input value=playerName rows='1' placeholder="Your Name"}}
-    {{input value=playerScore rows='1' readonly='true'}}
+    {{input value=playerName rows='1' placeholder="Your Name" class="submit"}}
+    {{playerScore}}
     <button {{action 'submitScore'}} class="submit">Submit Score</button>
   </div>
 {{/if}}
