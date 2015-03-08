@@ -1,12 +1,12 @@
 <div class="binding">
-  <h1 class="title">Binding of Pry-saac</h1>
+  <h1 class="title">The Binding of Pry-saac</h1>
   <h5 class="title"><b>WASD</b> to move, <b>Arrow Keys</b> to shoot</h5>
   <div id="binding"></div>
 
   {{#if showHighScore}}
-    <h4 {{action 'hideScores'}} class="title pseudo-button">Hide High Scores</h4>
+    <button {{action 'hideScores'}} class="title toggle-scores">Hide High Scores</button>
   {{else}}
-    <h4 {{action 'showScores'}} class="title pseudo-button">Show High Scores</h4>
+    <button {{action 'showScores'}} class="title toggle-scores">Show High Scores</button>
   {{/if}}
 </div>
 

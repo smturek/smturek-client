@@ -5,6 +5,7 @@ html {
   background-color: black;
   position: relative;
   font-family: $baron;
+  color: white;
 }
 
 *, *:before, *:after {
@@ -78,6 +79,14 @@ th, td {
   background: black;
 }
 
+input{
+  background: black;
+  color: white;
+  padding: 5px 0px;
+  border: none;
+  border-bottom: 1px solid white;
+}
+
 input[type="text"] {
   font-family: $baron;
   text-align: center;
@@ -126,12 +135,50 @@ input[type="text"] {
   margin: 10px;
 }
 
-.pseudo-button {
+.toggle-scores {
   display: block;
-  padding: 5px 0px;
-  border: 1px solid white;
-  width: 10%;
   margin: 0px auto;
+  font-size: 14px
 }
 
-button
+button {
+  background: black;
+  color: white;
+  border-radius: 0px;
+  border: 1px solid white;
+  box-shadow: none;
+  font-family: $baron;
+  padding: 5px 5px;
+}
+
+.project img{
+  height: 278px;
+  width: 500px;
+  margin-left: 50px;
+}
+
+.first-portfolio {
+  margin-top: 50px;
+}
+
+.project {
+  width: 50%;
+  float: left;
+}
+
+.project-description {
+  width: 50%;
+  float: left;
+}
+
+.project-description p {
+  margin-top: 0px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a h1:hover {
+  color: $bone;
+}
