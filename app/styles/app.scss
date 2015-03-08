@@ -2,10 +2,7 @@
 @import "fonts";
 
 html {
-  background-image: url("/assets/back-and-trees.jpeg");
-  background-size: cover;
-  background-position: 0px -165px,
-                        center;
+  background-color: black;
   background-repeat: no-repeat;
   position: relative;
 }
@@ -16,7 +13,7 @@ html {
 
 .title {
   text-align: center;
-  /* font-family: $2p; */
+  font-family: $baron;
   color: white;
 }
 
@@ -34,7 +31,6 @@ canvas {
 nav {
   display: text-center;
   font-family: $jaapokki;
-  margin-bottom: 100px;
 }
 
 nav ul {
@@ -79,15 +75,16 @@ th, td {
   color: white;
   text-align: center;
   margin-bottom: 40px;
+  background: black;
 }
 
 input[type="text"] {
-  /* font-family: $2p; */
+  font-family: $baron;
   text-align: center;
 }
 
 .submit {
-  /* font-family: $2p; */
+  font-family: $baron;
 }
 
 .margin-right-100 {
@@ -104,14 +101,18 @@ input[type="text"] {
 
 .binding {
   margin: 0 auto;
+  background: black;
 }
 
 .intro {
-  height: 200px;
-  width: 50%;
+  background-image: url("/assets/back-and-trees.jpeg");
+  background-size: cover;
+  height: 650px;
+  width: 100%;
   text-align: center;
   margin: 0px auto;
   color: white;
+  padding-top: 200px;
 }
 
 .intro h1 {

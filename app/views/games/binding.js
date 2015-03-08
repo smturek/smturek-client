@@ -238,6 +238,7 @@ export default Ember.View.extend({
     };
 
     MyState.prototype.renderLevel = function() {
+      this.announcement.alpha = 0;
       this.textLeft.visible = false;
       this.textRight.visible = false;
       this.exitText.visible = false;
@@ -492,7 +493,7 @@ export default Ember.View.extend({
         this.textLeft.visible = false;
         game.input.keyboard.clearCaptures();
         this.viewContext.get('controller').send('endGame', this.killCount);
-        game.input.onTap.addOnce(this.restart,this);
+        game.input.onTap.addOnce(this.restart, this);
       }
     };
 
@@ -516,7 +517,8 @@ export default Ember.View.extend({
       this.killCount = 0;
       this.monsterFireRate = 1200;
       this.playerFiringRate = 300;
-      this.create();
+      this.announcement.alpha = 0;
+      this.create(game);
     };
 
     MyState.prototype.randomMonster = function(x, y) {

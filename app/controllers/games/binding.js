@@ -21,6 +21,10 @@ export default Ember.Controller.extend({
     endGame: function(score) {
       this.set('showScoreSubmit', true);
       this.set('playerScore', score);
+    },
+
+    showScores: function() {
+      
     }
   }
 });
