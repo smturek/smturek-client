@@ -12,6 +12,7 @@ Router.map(function() {
   this.resource("resume", function() {});
   this.resource("blog", function() {});
   this.resource("portfolio", function() {});
+  this.route("home", { path: '/' });
 });
 
 export default Router;

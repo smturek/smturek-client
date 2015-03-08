@@ -1,22 +1,12 @@
 @import "colors";
 @import "fonts";
 
-@font-face {
-  font-family: 'jaapokki';
-  src: url(Jaapokkisubtract-Regular.otf);
-}
-
-@font-face {
-  font-family: 'baron-neue';
-  src: url(Baron-Neue.otf);
-}
-
 html {
   background-image: url("/assets/back-and-trees.jpeg");
   background-size: cover;
   background-position: 0px -165px,
                         center;
-  background-repeat: none;
+  background-repeat: no-repeat;
   position: relative;
 }
 
@@ -26,7 +16,7 @@ html {
 
 .title {
   text-align: center;
-  font-family: 'Press Start 2P', cursive;
+  /* font-family: $2p; */
   color: white;
 }
 
@@ -43,7 +33,7 @@ canvas {
 
 nav {
   display: text-center;
-  font-family: 'jaapokki';
+  font-family: $jaapokki;
   margin-bottom: 100px;
 }
 
@@ -71,7 +61,7 @@ nav ul li a:hover {
 }
 
 table {
-  font-family: 'Press Start 2P', cursive;
+  /* font-family: $2p; */
   border-collapse: collapse;
   margin: 0 auto;
   border-right: 1px solid white;
@@ -92,12 +82,12 @@ th, td {
 }
 
 input[type="text"] {
-  font-family: 'Press Start 2P', cursive;
+  /* font-family: $2p; */
   text-align: center;
 }
 
 .submit {
-  font-family: 'Press Start 2P', cursive;
+  /* font-family: $2p; */
 }
 
 .margin-right-100 {
@@ -113,9 +103,7 @@ input[type="text"] {
 }
 
 .binding {
-  background: black;
-  width: 100%;
-  padding: 30px 0px;
+  margin: 0 auto;
 }
 
 .intro {
@@ -133,7 +121,7 @@ input[type="text"] {
 }
 
 .intro h3 {
-  font-family: 'baron-neue';
+  font-family: $baron;
   font-size: 26px;
   margin: 10px;
 }

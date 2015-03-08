@@ -1,5 +1,14 @@
+@font-face {
+  font-family: 'jaapokki';
+  src: url(Jaapokkisubtract-Regular.otf);
+}
 
-$exo: 'Exo 2', sans-serif;
-$amarante: 'Amarante', cursive;
-$voltaire: 'Voltaire', sans-serif;
-$rock: 'Rock Salt', cursive;
+@font-face {
+  font-family: 'baron-neue';
+  src: url(Baron-Neue.otf);
+}
+
+$rock: 'Rock Salt';
+$baron: 'baron-neue';
+$jaapokki: 'jaapokki';
+/* $2p: 'Press Start 2P'; */
