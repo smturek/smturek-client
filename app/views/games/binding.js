@@ -84,6 +84,8 @@ export default Ember.View.extend({
     MyState.prototype.create = function(game) {
       game.physics.startSystem(Phaser.Physics.ARCADE);
 
+      this.viewContext.get('controller').send('hideAll', this.killCount);
+
       this.moveUp = game.input.keyboard.addKey(87);
       this.moveDown = game.input.keyboard.addKey(83);
       this.moveLeft = game.input.keyboard.addKey(65);
