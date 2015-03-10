@@ -21,6 +21,9 @@ export default Ember.View.extend({
       this.startOver = null;
       this.kills = null;
 
+      this.shotsFired = 0;
+      this.shotsHit = 0;
+
       this.player = null;
       this.playerMaxLife = 3;
       this.playerFiringRate = 300;
@@ -352,9 +355,11 @@ export default Ember.View.extend({
         {
             if(this.doubleShot) {
               bullet.reset(this.player.x - 6, this.player.y - 6);
+              this.shotsFired += 1;
             }
             else {
               bullet.reset(this.player.x, this.player.y);
+              this.shotsFired += 1;
             }
 
             if(direction === "up") {
@@ -375,6 +380,7 @@ export default Ember.View.extend({
               if (bullet)
               {
                 bullet.reset(this.player.x + 6, this.player.y + 6);
+                this.shotsFired += 1;
                 if(direction === "up") {
                   bullet.body.velocity.y = -400;
                 }
@@ -438,6 +444,7 @@ export default Ember.View.extend({
 
     MyState.prototype.monsterHit = function(monster, bullet) {
       bullet.kill();
+      this.shotsHit += 1;
       monster.damage(1);
       if(monster.key === 'boss' && monster.health % 2 === 0) {
           var x = this.game.rnd.integerInRange(50, 860);
@@ -484,8 +491,9 @@ export default Ember.View.extend({
         player.kill();
         player.visible = true;
         player.frame = 1;
+        var accuracy = (this.shotsHit / this.shotsFired) * 100;
         this.gameOver.text = "YOU'RE DEAD!";
-        this.kills.text = "AND YOU ONLY KILLED " + this.killCount + " BUGS...";
+        this.kills.text = "YOU KILLED " + this.killCount + " BUGS WITH " + accuracy.toFixed(2) + "% ACCURACY";
         this.exitText.text = "Submit your score below and see how you stack up";
         this.exitText.visible = true;
         this.kills.visible = true;
